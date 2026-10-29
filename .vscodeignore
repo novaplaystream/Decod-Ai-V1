@@ -1,0 +1,16 @@
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+tsconfig.json
+**/*.map
+**/*.ts
+node_modules/**
+!node_modules/**
+npm-debug.log*
+out/test/**
+
+media/logo-4k.png
+media/logo-4k-bare.png
+media/*-bare.png
+media/logo-sheet.png

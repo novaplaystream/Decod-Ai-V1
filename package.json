@@ -1,0 +1,130 @@
+{
+  "name": "dcode-ai",
+  "displayName": "Dcode AI",
+  "description": "Dcode AI - use any OpenAI-compatible API (NVIDIA, OpenRouter, Groq, etc.) as a coding agent inside VS Code",
+  "version": "0.9.2",
+  "publisher": "local",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Chat"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:dcodeAi.view",
+    "onCommand:dcodeAi.open",
+    "onCommand:dcodeAi.newChat",
+    "onCommand:dcodeAi.openPreview"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dcodeAi.open",
+        "title": "Dcode AI: Open"
+      },
+      {
+        "command": "dcodeAi.setApiKey",
+        "title": "Dcode AI: Set API Key"
+      },
+      {
+        "command": "dcodeAi.newChat",
+        "title": "Dcode AI: New Chat"
+      },
+      {
+        "command": "dcodeAi.openPreview",
+        "title": "Dcode AI: Open Live UI Preview"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "dcode-ai",
+          "title": "Dcode AI",
+          "icon": "media/mark-24.svg"
+        }
+      ]
+    },
+    "views": {
+      "dcode-ai": [
+        {
+          "type": "webview",
+          "id": "dcodeAi.view",
+          "name": "Chat"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Dcode AI",
+      "properties": {
+        "dcodeAi.apiBaseUrl": {
+          "type": "string",
+          "default": "https://integrate.api.nvidia.com/v1",
+          "description": "Base URL for OpenAI-compatible API (e.g., https://integrate.api.nvidia.com/v1)"
+        },
+        "dcodeAi.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API Key for the provider"
+        },
+        "dcodeAi.model": {
+          "type": "string",
+          "default": "meta/llama-3.3-70b-instruct",
+          "description": "Model ID to use (e.g., from build.nvidia.com)"
+        },
+        "dcodeAi.temperature": {
+          "type": "number",
+          "default": 0.3,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Sampling temperature"
+        },
+        "dcodeAi.maxSteps": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Hard cap on tool-use steps per message. 0 means no limit (recommended)."
+        },
+        "dcodeAi.autoWrapUpAfter": {
+          "type": "number",
+          "default": 50,
+          "minimum": 0,
+          "maximum": 500,
+          "description": "After this many tool steps the agent automatically writes a summary instead of continuing. 0 disables the summary."
+        },
+        "dcodeAi.systemPrompt": {
+          "type": "string",
+          "default": "",
+          "description": "System prompt (leave empty to use the built-in coding-agent prompt)"
+        },
+        "dcodeAi.previewAutoOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open the live UI preview panel when the agent creates or edits an HTML page."
+        },
+        "dcodeAi.previewEntry": {
+          "type": "string",
+          "default": "",
+          "description": "HTML file to show in the live preview (e.g. index.html). Leave empty to auto-detect."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile && npm run check",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "check": "node scripts/check-webview.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.15.0",
+    "typescript": "^5.3.0"
+  }
+}
